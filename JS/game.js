@@ -52,7 +52,7 @@ class Game{
 
         if(allPlayers !== "undefined"){
             //var displayPos = 150;
-            image(track_img, 0, -displayHeight*3.62, displayWidth, displayHeight*5);
+            image(track_img, 0, -displayHeight*12.8, displayWidth, displayHeight*15);
 
             var index = 0;
             var x = 200;
@@ -81,31 +81,27 @@ class Game{
             }
         }
 
-        if(finishedPlayers === 4){
-            console.log(finishedPlayers);
-            game.updateState(2);
-        }
-
-        if(player.distance < 3400){
-            console.log(player.index);
+        if(player.distance < 10350){
             if(keyIsDown(38) && player.index !== null){
-                yVel += 3;
-                if(keyIsDown(37) && player.index !== null){
+                yVel += 0.9;
+                if(keyIsDown(37)){
                     xVel -= 0.2;
                 }
-                if(keyIsDown(39) && player.index !== null){
+                if(keyIsDown(39)){
                     xVel += 0.2;
                 }
+            }else if(keyIsDown(38) && yVel > 0 && player.index !== null){
+                yVel -= 0.1;
+                xVel *= 0.9;
             }else{
-                yVel *= 0.95;
-                xVel *= 0.95;
+                yVel *= 0.985;
+                xVel *= 0.985;
             }
         }else if(passedFinish === false){
             yVel *= 0.7;
             xVel *= 0.7;
             Player.updateFinishedPlayers();
             player.place = finishedPlayers;
-            console.log(player.place);
 
             player.updateName();
             passedFinish = true;
@@ -122,5 +118,34 @@ class Game{
         player.updateName();
         //display sprites
         drawSprites();
+    }
+
+    displayRanks(){
+        //display the medals
+        camera.position.y = 0;
+        camera.position.x = 0;
+
+        imageMode(CENTER);
+
+        Player.getPlayerInfo();
+
+        image(bronze_img, displayWidth/-4, -100 + displayHeight/9, 200, 240);
+        image(silver_img, displayWidth/4, -100 + displayHeight/10, 225, 270);
+        image(gold_img, 0, -100, 250, 300);
+
+        textAlign(CENTER);
+        textSize(50);
+        for(var plr in allPlayers){
+            if(allPlayers[plr].place === 1){
+                text("1st: " + allPlayers[plr].name, 0, 85);
+            }else if(allPlayers[plr].place === 2){
+                text("2nd: " + allPlayers[plr].name, displayWidth/4, displayHeight/9 + 73);
+            }else if(allPlayers[plr].place === 3){
+                text("3rd: " + allPlayers[plr].name, displayWidth/-4, displayHeight/10 + 76);
+            }else{
+                textSize(30);
+                text("Honorable Mention: " + allPlayers[plr].name, 0, 225);
+            }
+        }
     }
 }
