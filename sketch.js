@@ -31,10 +31,10 @@ function preload() {
   bronze_img = loadImage("Images/bronze.png");
   silver_img = loadImage("Images/silver.png");
   gold_img = loadImage("Images/gold.png");
-
 }
 
 function setup() {
+  console.log(displayHeight);
   //create the canvas
   createCanvas(displayWidth * 0.99, displayHeight * 0.885);
 
@@ -61,7 +61,7 @@ function draw() {
   background(200,200,255);  
 
   //start the game
-  if(playerCount === 4){
+  if(playerCount === 4 && finishedPlayers === 0){
     game.updateState(1);
   }
 
@@ -70,7 +70,14 @@ function draw() {
     game.play();
   }
 
-  if(finishedPlayers === 3){
-    gameState = 0;
+  //end the game
+  if(finishedPlayers === 4){
+    game.updateState(2);
+    //gameState = 2;
+  }
+  
+  //display ranking
+  if(gameState === 2 && finishedPlayers === 4){
+    game.displayRanks();
   }
 }
