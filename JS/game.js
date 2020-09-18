@@ -52,8 +52,8 @@ class Game{
 
         if(allPlayers !== "undefined"){
             //var displayPos = 150;
-            image(track_img, 0, -displayHeight*12.8, displayWidth, displayHeight*15);
-
+            image(track_img, 0, -900*12.8, displayWidth, 900*15);
+            
             var index = 0;
             var x = 200;
             var y;
